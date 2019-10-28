@@ -14,10 +14,29 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import withStyles from "@material-ui/core/styles/withStyles";
 import styles from "./styles/FormStyles";
+import { LanguageContext } from './contexts/LanguageContext';
+
+const words = {
+  english: {
+    email: 'Email'
+  },
+  french: {
+    email: 'Adresse Èlectronique'
+  },
+  spanish: {
+    email: 'Correo Electronico'
+  }
+}
+
 
 class Form extends Component {
+  static contextType = LanguageContext;
+
   render() {
+    const { language, changeLanguage } = this.context;
     const { classes } = this.props;
+    const { email } = words[language];
+
     return (
       <main className={classes.main}>
         <Paper className={classes.paper}>
@@ -25,14 +44,14 @@ class Form extends Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography variant='h5'>Sign In</Typography>
-          <Select value='english'>
+          <Select onChange={changeLanguage} value={language}>
             <MenuItem value='english'>English</MenuItem>
             <MenuItem value='french'>French</MenuItem>
             <MenuItem value='spanish'>Spanish</MenuItem>
           </Select>
           <form className={classes.form}>
             <FormControl margin='normal' required fullWidth>
-              <InputLabel htmlFor='email'>Email</InputLabel>
+              <InputLabel htmlFor='email'>{ email }</InputLabel>
               <Input id='email' name='email' autoFocus />
             </FormControl>
             <FormControl margin='normal' required fullWidth>
